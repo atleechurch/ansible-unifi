@@ -1,0 +1,15 @@
+---
+ - name: UniFi_Repo | Install the UniFi repo
+   apt_repository: repo="{{item}}" update_cache=false  # We will do ourselfs afterwards
+   when: ansible_distribution == 'Ubuntu'
+   with_items:
+     - 'deb http://www.ubnt.com/downloads/unifi/debian unifi5 ubiquiti'
+
+ - name: UniFi_Repo | Add UniFi apt Keyfile
+   apt_key: keyserver=keyserver.ubuntu.com id=C0A52C50
+
+ - name: UniFi_Repo | Update the repo
+   apt:  update_cache=true
+
+ - name: UniFi | Install UniFi Server
+   apt: name=unifi state=present
